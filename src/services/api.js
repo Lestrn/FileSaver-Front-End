@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-axios.defaults.baseURL = 'https://localhost:7115';
+const baseURL = 'https://localhost:7115';
+axios.defaults.baseURL = baseURL;
 
 const routeAuth = "/api/Auth/"
 
@@ -37,11 +37,13 @@ export async function confirmRecovery(code) {
 const ruoteUser = "/api/User/"
 export async function downloadFile(fileId,  ownerId, token) {
   
-  const { data } = await axios.get(`${ruoteUser}DownloadFile?fileId=${fileId}&ownerId=${ownerId}`, {
+  const  response  = await fetch(`${baseURL}${ruoteUser}DownloadFile?fileId=${fileId}&ownerId=${ownerId}`, {
+    method: 'GET',
     headers: {
-      Authorization: `bearer ${token}`,
-    } });
-  return data;
+      'Authorization': `Bearer ${token}` 
+    }
+  });
+  return response;
 }
 
 export async function getAllUsers(token) {
