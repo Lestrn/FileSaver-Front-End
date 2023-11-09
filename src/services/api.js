@@ -151,7 +151,7 @@ export async function sendMessage(sendMessageDTO, token) {
 //put
 
 export async function updateRole(userId, role, token) {
-  const { data } = await axios.put(`${ruoteUser}UpdateRole?userId=${userId}&role=${role}`, {
+  const { data } = await axios.put(`${ruoteUser}UpdateRole?userId=${userId}&role=${role}`, null, {
     headers: {
       Authorization: `bearer ${token}`,
     } });
@@ -167,7 +167,7 @@ export async function uploadAvatar(userId, imageBinary, token) {
 }
 
 export async function changePassword(userId, newPassword, token) {
-  const { data } = await axios.put(`${ruoteUser}ChangePassword?userId=${userId}&newPassword=${newPassword}`, {
+  const { data } = await axios.put(`${ruoteUser}ChangePassword?userId=${userId}&newPassword=${newPassword}`, null,  {
     headers: {
       Authorization: `bearer ${token}`,
     } });
@@ -175,7 +175,7 @@ export async function changePassword(userId, newPassword, token) {
 }
 
 export async function sendFriendRequest(senderId, receiverUsername, token) {
-  const { data } = await axios.put(`${ruoteUser}SendFriendRequest?senderId=${senderId}&receiverUsername=${receiverUsername}`, {
+  const { data } = await axios.put(`${ruoteUser}SendFriendRequest?senderId=${senderId}&receiverUsername=${receiverUsername}`, null ,{
     headers: {
       Authorization: `bearer ${token}`,
     } });
@@ -183,7 +183,7 @@ export async function sendFriendRequest(senderId, receiverUsername, token) {
 }
 
 export async function acceptFriendRequest(senderId, receiverId, token) {
-  const { data } = await axios.put(`${ruoteUser}AcceptFriendRequest?senderId=${senderId}&receiverId=${receiverId}`, {
+  const { data } = await axios.put(`${ruoteUser}AcceptFriendRequest?senderId=${senderId}&receiverId=${receiverId}`, null, {
     headers: {
       Authorization: `bearer ${token}`,
     } });
@@ -191,7 +191,7 @@ export async function acceptFriendRequest(senderId, receiverId, token) {
 }
 
 export async function denyFriendRequest(senderId, receiverId, token) {
-  const { data } = await axios.put(`${ruoteUser}DenyFriendRequest?senderId=${senderId}&receiverId=${receiverId}`, {
+  const { data } = await axios.put(`${ruoteUser}DenyFriendRequest?senderId=${senderId}&receiverId=${receiverId}`,  null, {
     headers: {
       Authorization: `bearer ${token}`,
     } });
@@ -202,8 +202,8 @@ export async function denyFriendRequest(senderId, receiverId, token) {
 
 //delete
 
-export async function stopSharingFile(stopSharingDTO,  token) {
-  const { data } = await axios.delete(`${ruoteUser}StopSharingFile`, stopSharingDTO, {
+export async function stopSharingFile(fileId, ownerId, sharedWithId,  token) {
+  const { data } = await axios.delete(`${ruoteUser}StopSharingFile?fileId=${fileId}&ownerId=${ownerId}&sharedWithId=${sharedWithId}`, {
     headers: {
       Authorization: `bearer ${token}`,
     } });
@@ -218,8 +218,8 @@ export async function deleteFileById(fileId, ownerId, token) {
   return data;
 }
 
-export async function deleteFriendship(senderId, receiverId, token) {
-  const { data } = await axios.delete(`${ruoteUser}DeleteFriendship?senderId=${senderId}&receiverId=${receiverId}`, {
+export async function deleteFriendship(userId, friendId, token) {
+  const { data } = await axios.delete(`${ruoteUser}DeleteFriendship?userId=${userId}&friendId=${friendId}`, {
     headers: {
       Authorization: `bearer ${token}`,
     } });

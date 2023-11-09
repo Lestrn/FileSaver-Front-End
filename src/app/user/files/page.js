@@ -18,7 +18,6 @@ export default function FileService() {
     if (data) {
       setInfo(data)
       getFiles(data.userId, data.access_token);
-      console.log(data);
     }
 
 
@@ -29,9 +28,7 @@ export default function FileService() {
 
   async function getFiles(userId, token) {
     try {
-      console.log(userInfo);
       const files = await getAllFilesByUserId(userId, token);
-      console.log(files.value);
       setUserFiles(files.value);
     }
     catch (err) {
@@ -41,7 +38,7 @@ export default function FileService() {
   }
 
 
-  async function onDownloadFile(fileId, fileName, fileType) {
+  async function onDownloadFile(fileId, fileName) {
     try {
       const response = await downloadFile(fileId, userInfo.userId, userInfo.access_token);
 
@@ -106,7 +103,7 @@ export default function FileService() {
         {userFiles.map(el => (
           <li key={el.id}>
             <p style={{color:"white"}}>{el.fileName}</p>
-            <button onClick={() => onDownloadFile(el.id, el.fileName, el.contentType)} type="button">downLoad file</button>
+            <button onClick={() => onDownloadFile(el.id, el.fileName)} type="button">downLoad file</button>
             <button onClick={() => onDeleteFile(el.id)} type = "button">delete file</button>
           </li>
         ))}

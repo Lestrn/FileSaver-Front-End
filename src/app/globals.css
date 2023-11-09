@@ -12,7 +12,13 @@ body {
   background-size: cover;
   background-position: center;
 }
-
+ul, li {
+  list-style-type: none;
+}
+p {
+  display: inline-block;
+  padding: 5px;
+}
 .flex_wrapper{
   display: flex;
   justify-content: center;
@@ -154,4 +160,40 @@ body {
   position: fixed;
   top: 97%;
   left: 0;
+}
+/*side bar */
+.toggle-button {
+  position: absolute;
+  top: 49px;
+  left: 0px;
+  background: transparent;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 10px gray;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  z-index: 999;
+}
+
+
+.gg-sidebar,
+.gg-sidebar::before {
+    display: block;
+    box-sizing: border-box;
+    height: 8px
+}
+.gg-sidebar {
+    border-left: 2px solid;
+    position: relative;
+    transform: scale(var(--ggs,1));
+    width: 10px
+}
+.gg-sidebar::before {
+    content: "";
+    position: absolute;
+    width: 6px;
+    border: 2px solid;
+    top: 0;
+    left: 2px
 }
