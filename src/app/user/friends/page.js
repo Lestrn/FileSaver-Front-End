@@ -1,7 +1,11 @@
 "use client"
 
+import { Modal } from "@/components/Modal/Modal";
+import { Portal } from "@/components/Portal/Portal";
 import { acceptFriendRequest, deleteFriendship, denyFriendRequest, getAcceptedFriendRequests, getDeclinedFriendRequests, getPendingFriendRequests, getUserInfo, sendFriendRequest } from "@/services/api";
 import { useEffect, useState } from "react";
+
+import s from "./page.module.css"
 
 export default function Friends() {
     const key = "userInfo"
@@ -10,6 +14,11 @@ export default function Friends() {
     const [stateAcceptedFriendsInfo, setAcceptedFriendUserInfo] = useState([]);
     const [statePendingFriendsInfo, setPendingFriendUserInfo] = useState([]);
     const [stateDeclinedFriendsInfo, setDeclinedFriendUserInfo] = useState([]);
+
+    const [onShow, setOnShow] = useState(false);
+    const [stateFriend, setFriend] = useState(null);
+
+    const onClose = () => setOnShow(false)
 
     let acceptedFriendIds = [];
     let acceptedFriendInfos = [];
@@ -92,10 +101,15 @@ export default function Friends() {
 
     //accept friend request
 
-    async function acceptPendingFriendRequest(senderId) {
+    async function acceptPendingFriendRequest(senderId, showDeclinedRequests = false) {
         try {
             await acceptFriendRequest(senderId, userInfo.userId, userInfo.access_token);
-            await showPendingFriendRequests();
+            if(showDeclinedRequests){
+                await showDeclinedFriendRequests();
+            }
+            else{
+                await showPendingFriendRequests();
+            }
             await initializeAcceptedFriendsInfo(userInfo.userId, userInfo.access_token);
         }
         catch (err) {
@@ -103,17 +117,20 @@ export default function Friends() {
         }
     }
     //delete friendship
-    async function deleteFriend(friendId){
-        try{
+    async function deleteFriend(friendId, showDeclinedRequest = false) {
+        try {
             await deleteFriendship(userInfo.userId, friendId, userInfo.access_token);
             await initializeAcceptedFriendsInfo(userInfo.userId, userInfo.access_token);
+            if (showDeclinedRequest) {
+                await showDeclinedFriendRequests();
+            }
         }
-        catch(err){
+        catch (err) {
             console.log(err);
         }
     }
     // decline friend request
-    async function denyPendingFriendRequest(senderId){
+    async function denyPendingFriendRequest(senderId) {
         try {
             await denyFriendRequest(senderId, userInfo.userId, userInfo.access_token);
             await showPendingFriendRequests();
@@ -145,51 +162,62 @@ export default function Friends() {
     }
 
     return (
-        <main>
-            <div style={{ color: "white" }}>
-                <h3>Accepted friends</h3>
-                <ul>
+        <main className="container">
+            <div className={s.friends} >
+                <div className={s.first_block}>
+                <h3 className={s.title}>Accepted friends</h3>
+                <ul className={s.list}>
                     {stateAcceptedFriendsInfo.length > 0 && stateAcceptedFriendsInfo.map(friendInfo => (
-                        <li key={friendInfo.id}>
-                            <p>{friendInfo.username}</p>
-                            <button type = "button" onClick={() => {deleteFriend(friendInfo.id)}}>Delete friend</button>
+                        <li className={s.item} key={friendInfo.id}>
+                            <p className={s.friend_username}>{friendInfo.username}</p>
+                            <button className={s.button_appearing} type="button" onClick={() => { deleteFriend(friendInfo.id) }}>Delete friend</button>
+                            <button className={s.button_appearing} type="button" onClick={() => {
+                                setFriend(friendInfo);
+                                setOnShow(true)
+                                console.log(friendInfo);
+                            }}>Write message</button>
                         </li>
                     ))}
                 </ul>
-
-                <h3>Send friend request</h3>
-                <form onSubmit={addFriend}>
-                    <input name="username" placeholder="Username" required />
-                    <button type="submit" className="btn">
-                        Send  request
-                    </button>
-                </form>
-
-                <h3>Show pending requests</h3>
-                <button type="button" onClick={showPendingFriendRequests}>Show pending requests</button>
-                <ul>
-                    {statePendingFriendsInfo.length > 0 && statePendingFriendsInfo.map(friendInfo => (
-                        <li key={friendInfo.id}>
-                            <p>{friendInfo.username}</p>
-                            <button onClick={() => { acceptPendingFriendRequest(friendInfo.id) }}>Accepted Request</button>
-                            <button onClick={() => { denyPendingFriendRequest(friendInfo.id) }}>Deny Request</button>
-                        </li>
-                    ))}
-                </ul>
-                <h3>Show declined requests</h3>
-                <button type="button" onClick={showDeclinedFriendRequests}>Show declined requests</button>
-                <ul>
-                    {stateDeclinedFriendsInfo.length > 0 && stateDeclinedFriendsInfo.map(friendInfo => (
-                        <li key={friendInfo.id}>
-                            <p>{friendInfo.username}</p>
-                            <button onClick={() => { acceptPendingFriendRequest(friendInfo.id) }}>Accepted Request</button>
-                            <button onClick={() => { deleteFriend(friendInfo.id) }}>Delete Request</button>
-                        </li>
-                    ))}
-                </ul>
+                </div>
+                <div className={s.black_form}>
+                    <h3 className={s.title_form}>Send friend request</h3>
+                    <form className={s.form} onSubmit={addFriend}>
+                        <input className={s.input} name="username" placeholder="Username" required />
+                        <button type="submit" className={s.button}>
+                            Send  request
+                        </button>
+                    </form>
+                </div>
+                <div className={s.black_div}>
+                    <h3 className={s.title_form}>Show pending requests</h3>
+                    <button className={s.button} type="button" onClick={showPendingFriendRequests}>Show pending requests</button>
+                    <ul>
+                        {statePendingFriendsInfo.length > 0 && statePendingFriendsInfo.map(friendInfo => (
+                            <li className={s.item} key={friendInfo.id}>
+                                <p className={s.friend_username}>{friendInfo.username}</p>
+                                <button className={s.button_appearing} onClick={() => { acceptPendingFriendRequest(friendInfo.id) }}>Accepted Request</button>
+                                <button className={s.button_appearing} onClick={() => { denyPendingFriendRequest(friendInfo.id) }}>Deny Request</button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                <div className={s.black_div}>
+                    <h3 className={s.title_form}>Show declined requests</h3>
+                    <button type="button" className={s.button} onClick={showDeclinedFriendRequests}>Show declined requests</button>
+                    <ul>
+                        {stateDeclinedFriendsInfo.length > 0 && stateDeclinedFriendsInfo.map(friendInfo => (
+                            <li className={s.item} key={friendInfo.id}>
+                                <p className={s.friend_username}>{friendInfo.username}</p>
+                                <button className={s.button_appearing} onClick={() => { acceptPendingFriendRequest(friendInfo.id, true) }}>Accepted Request</button>
+                                <button className={s.button_appearing} onClick={() => { deleteFriend(friendInfo.id, true) }}>Delete Request</button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
 
-
+            {onShow && <Portal onClose={onClose} ><Modal onClose={onClose} userInfo={userInfo} friend={stateFriend} /></Portal>}
         </main>
     );
 }

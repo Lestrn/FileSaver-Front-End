@@ -7,7 +7,8 @@ const path = { home: "/", login: "/auth/login", register: "/auth/register" }
 
 
 export const Header = () => (
-    <header className={css.header}>
+    <div className="container">
+    <header className={css.header }>
         <nav className={css.list}>
 
             <li>
@@ -24,4 +25,5 @@ export const Header = () => (
         </nav>
 
     </header>
+    </div>
 );

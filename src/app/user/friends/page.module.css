@@ -1,0 +1,146 @@
+    .input {
+        padding: 5px 10px;
+        border-radius: 5px;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        border: 2px solid rgba(255, 255, 255, .2);
+        border-radius: 40px;
+        font-size: 16px;
+        color: #fff;
+    }
+
+    .button {
+        padding: 5px 10px;
+        margin: 0 auto;
+        width: 70%;
+        height: 100%;
+        background: #fff;
+        border: none;
+        outline: none;
+        border-radius: 40px;
+        box-shadow: 0 0 10px gray;
+        cursor: pointer;
+        font-size: 16px;
+        color: #333;
+        font-weight: 600;
+        justify-content: space-around;
+    }
+    .button_appearing{
+        padding: 5px 10px;
+        margin: 0 auto;
+        width: 70%;
+        height: 100%;
+        background: #fff;
+        border: none;
+        outline: none;
+        border-radius: 40px;
+        box-shadow: 0 0 10px gray;
+        cursor: pointer;
+        font-size: 16px;
+        color: #333;
+        font-weight: 600;
+        justify-content: space-around;
+        margin-left: 10px;
+    }
+
+    .friends {
+        color: white;
+
+    }
+
+    .first_block {
+        padding: 10px;
+        width: 100%;
+        border-radius: 3px;
+        margin: 0 auto;
+        margin-top: 20px;
+        background: transparent;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 0 10px gray;
+    }
+
+    .title {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .item {
+        display: flex;
+        width: 500px;
+        padding: 10px;
+        justify-content: space-between;
+    }
+
+    .title_form {
+        text-align: center;
+
+    }
+
+    .form {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+
+    }
+
+    .friendInfo {
+
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .black_div {
+
+        background: transparent;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 0 10px gray;
+        border-radius: 3px;
+        margin: 0 auto;
+        padding: 10px;
+        display: flex;
+        gap: 20px;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .black_form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+        background: transparent;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 0 10px gray;
+        border-radius: 3px;
+        padding: 10px;
+        margin-top: 10px;
+
+    }
+    .friend_username {
+        font-size: 20px;
+        font-family: 'Gambetta', serif;
+        letter-spacing: -3px;
+        transition: 700ms ease;
+        font-variation-settings: "wght" 311;
+        margin-bottom: 0.8rem;
+        color: rgb(232, 206, 255);
+        outline: none;
+        text-align: center;
+        margin-right: 10px;
+        letter-spacing: 1px;
+    }
+    .friend_username:hover  {
+        font-variation-settings: "wght" 582; 
+        letter-spacing: 2px;
+    }
+    
