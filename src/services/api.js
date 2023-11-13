@@ -62,8 +62,16 @@ export async function getUserInfo(userId, token) {
   return data;
 }
 
-export async function getAllFilesByUserId(userId, token) {
-  const { data } = await axios.get(`${ruoteUser}GetAllFilesByUserId?userId=${userId}`, {
+export async function getOwnFiles(userId, token) {
+  const { data } = await axios.get(`${ruoteUser}GetOwnFiles?userId=${userId}`, {
+    headers: {
+      Authorization: `bearer ${token}`,
+    } });
+  return data;
+}
+
+export async function getReceivedFiles(userId, token) {
+  const { data } = await axios.get(`${ruoteUser}GetReceivedFiles?userId=${userId}`, {
     headers: {
       Authorization: `bearer ${token}`,
     } });
@@ -118,6 +126,13 @@ export async function getSentMessages(userId, token) {
   return data;
 }
 
+export async function getFileInfo(fileId, userId, token) {
+  const { data } = await axios.get(`${ruoteUser}GetFileInfo?fileId=${fileId}&userId=${userId}`, {
+    headers: {
+      Authorization: `bearer ${token}`,
+    } });
+  return data;
+}
 // end gets
 
 //post
@@ -211,7 +226,7 @@ export async function stopSharingFile(fileId, ownerId, sharedWithId,  token) {
 }
 
 export async function deleteFileById(fileId, ownerId, token) {
-  const { data } = await axios.delete(`${ruoteUser}DeleteFileById?fileId=${fileId}&ownerId=${ownerId}`, {
+  const { data } = await axios.delete(`${ruoteUser}DeleteFileById?fileId=${fileId}&userId=${ownerId}`, {
     headers: {
       Authorization: `bearer ${token}`,
     } });

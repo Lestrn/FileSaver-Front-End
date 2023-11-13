@@ -6,6 +6,7 @@ import { acceptFriendRequest, deleteFriendship, denyFriendRequest, getAcceptedFr
 import { useEffect, useState } from "react";
 
 import s from "./page.module.css"
+import { SendMessage } from "@/components/SendMessage/SendMessage";
 
 export default function Friends() {
     const key = "userInfo"
@@ -217,7 +218,7 @@ export default function Friends() {
                 </div>
             </div>
 
-            {onShow && <Portal onClose={onClose} ><Modal onClose={onClose} userInfo={userInfo} friend={stateFriend} /></Portal>}
+            {onShow && <Portal onClose={onClose} ><Modal onClose={onClose} ><SendMessage userInfo={userInfo} friend={stateFriend} onClose={onClose}/> </Modal> </Portal>}
         </main>
     );
 }
