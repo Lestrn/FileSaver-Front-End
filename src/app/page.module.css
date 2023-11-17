@@ -1,4 +1,43 @@
-.main {
-color:white;
-}
+/* YourStyles.module.css */
 
+.wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    color: white;
+  }
+  
+  .intro {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .description {
+    font-size: 16px;
+  }
+  
+  .features {
+    margin-bottom: 30px;
+  }
+  
+
+  
+  .features ul {
+    list-style-type: square;
+    padding-left: 20px;
+  }
+  
+  .implementation {
+    margin-bottom: 30px;
+  }
+  
+  .images {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .featureImage {
+    max-width: 200px;
+    margin-top: 20px;
+  }
+  

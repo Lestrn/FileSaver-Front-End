@@ -6,10 +6,11 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { Header } from '../components/Header/Header';
 import Sidebar from '@/components/Sidebar/Sidebar';
 import { Loader } from '@/components/Loader';
+import { getOwnFiles } from '@/services/api';
 
 export const Context = createContext(null);
 
@@ -20,25 +21,51 @@ export default function RootLayout({ children }) {
   const [userEmail, setUserEmail] = useState("")
   const [isLoading, setLoading] = useState(false)
   const [sidebarVisible, setSidebarVisible] = useState(false);
+
+
+
+  const [stateIsAuthorized, setAuthorize] = useState(true);
+  const key = "userInfo"
+  useEffect(() => {
+
+    console.log("SETLOADING ON TRUE")
+
+    const data = JSON.parse(localStorage.getItem(key));
+    if (data == null) {
+      setAuthorize(false);
+    }
+    else {
+      try {
+        getOwnFiles(data.userId, data.access_token);
+        setAuthorize(true);
+      }
+      catch (err) {
+        console.log(err)
+        setAuthorize(false);
+      }
+    }
+  }, [key]);
+
+
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible); // Toggle the sidebar visibility
   };
 
   return (
     <html lang="en">
-         
-      <Context.Provider value={{ userEmail, setUserEmail, isLoading, setLoading, sidebarVisible, toggleSidebar }}>
+
+      <Context.Provider value={{ userEmail, setUserEmail, isLoading, setLoading, sidebarVisible, toggleSidebar, stateIsAuthorized, setAuthorize }}>
         <body className={inter.className} >
-        
+
           <Header />
           <div className='false_header'></div>
-          <div className ="block_button">
-          <button className={`toggle-button ${sidebarVisible ? 'button-open' : ''}`} onClick={toggleSidebar}><i className="gg-sidebar"></i></button> {/* Button to toggle the sidebar */}
-          </div>
+          {stateIsAuthorized &&    <div className="block_button">
+            <button className={`toggle-button ${sidebarVisible ? 'button-open' : ''}`} onClick={toggleSidebar}><i className="gg-sidebar"></i></button> {/* Button to toggle the sidebar */}
+          </div> }
           <div className=" ">
-            <Sidebar />
+      {stateIsAuthorized && <Sidebar />} 
             {children}
-            {isLoading && <div className="loading-msg"><Loader/></div>}
+            {isLoading && <div className="loading-msg"><Loader /></div>}
           </div>
           <div id="modal"></div>
         </body>

@@ -143,4 +143,35 @@
         font-variation-settings: "wght" 582; 
         letter-spacing: 2px;
     }
-    
+    /*table */
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+
+  .row {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .button_appearing {
+    padding: 5px 10px;
+    margin: 0 auto;
+    width: 70%;
+    height: 100%;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px gray;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+    justify-content: space-around;
+  }
+  
+
+  

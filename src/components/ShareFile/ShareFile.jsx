@@ -1,7 +1,7 @@
 import s from './ShareFile.module.css'
-import { getAcceptedFriendRequests, getUserInfo, shareFile } from "@/services/api";
+import { shareFile } from "@/services/api";
 
-function ShareFile({userInfo, shareFileId, onClose, acceptedFriendsInfo =[]}) {
+function ShareFile({userInfo, shareFileId, onClose, acceptedFriendsInfo =[], fileName}) {
 
   async function shareFileWithFriend(friendId) {
     const shareFileDTO = {
@@ -19,6 +19,7 @@ function ShareFile({userInfo, shareFileId, onClose, acceptedFriendsInfo =[]}) {
   }
   return (
     <div className='share-file-modal'>
+      <div className={s.title}>Share {fileName} with</div>
       <ul className={s.list}>
         {acceptedFriendsInfo.length > 0 && acceptedFriendsInfo.map(friendInfo => (
           <li className={s.item} key={friendInfo.id}>

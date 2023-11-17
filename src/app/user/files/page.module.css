@@ -1,0 +1,116 @@
+.h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.file_list {
+    list-style: none;
+    padding: 0;
+}
+
+.file_list li {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.file_list p {
+    color: white;
+    margin: 0;
+}
+
+.button {
+    padding: 5px 10px;
+    margin-left: 10px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px gray;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+    justify-content: space-around;
+}
+
+
+.file_list button:hover {
+    background: #4CAF50;
+    /* Change the color on hover */
+    color: white;
+}
+
+.upload_form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.upload_form label {
+    color: white;
+}
+
+.upload_form input {
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: 100%;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.upload_form button {
+    padding: 5px 10px;
+    width: 70%;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px gray;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+    justify-content: space-around;
+}
+
+.upload_form button:hover {
+    background: #4CAF50;
+    /* Change the color on hover */
+    color: white;
+}
+
+.section {
+    background: transparent;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px gray;
+    margin-top: 20px;
+    padding: 20px;
+}
+.text {
+    font-size: 20px;
+    font-family: 'Gambetta', serif;
+    letter-spacing: -3px;
+    transition: 700ms ease;
+    font-variation-settings: "wght" 311;
+    margin-bottom: 0.8rem;
+    color: rgb(232, 206, 255);
+    outline: none;
+    margin-right: 10px;
+    letter-spacing: 1px;
+}
+/* table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+.row {
+    border-bottom: 1px solid #ddd;
+  }

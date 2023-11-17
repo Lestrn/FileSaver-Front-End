@@ -5,7 +5,7 @@ import { Context } from "@/app/layout";
 
 export default function Login() {
   const [retrievedData, setRetrievedData] = useState(null);
-  const {isLoading, setLoading} = useContext(Context);
+  const {isLoading, setLoading, setAuthorize} = useContext(Context);
   const [isFailed, setFail] = useState(false);
   
   const key = "userInfo"
@@ -22,16 +22,15 @@ export default function Login() {
       password: password,
     };
 
-    
-
     setLoading(true);
+
     try {
       const data = await login(loginUser);
       setRetrievedData(data);
       // 
-      console.log(data)
       localStorage.setItem(key, JSON.stringify(data));
       // 
+      setAuthorize(true);
       setFail(false);
     } catch (err) {
         setFail(true);

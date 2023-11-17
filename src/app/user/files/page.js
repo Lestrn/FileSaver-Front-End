@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import ShareFile from "@/components/ShareFile/ShareFile";
 import { Portal } from "@/components/Portal/Portal";
 import { Modal } from "@/components/Modal/Modal";
+import css from "./page.module.css"
 export default function FileService() {
 
   const key = "userInfo"
@@ -16,7 +17,7 @@ export default function FileService() {
   const [stateUserSharedFiles, setUserSharedFiles] = useState([]);
   const [statefileUserInfo, setFileUserInfo] = useState([]);
   const [onShow, setOnShow] = useState(false);
-  const [stateFileId, setFileId] = useState(null);
+  const [stateFile, setFile] = useState(null);
   const [userInfo, setInfo] = useState(null);
 
 
@@ -30,7 +31,7 @@ export default function FileService() {
   }, [key]);
 
   useEffect(() => {
-    if(!userInfo)  return;
+    if (!userInfo) return;
     getUserReceivedFiles(userInfo.userId, userInfo.access_token);
   }, [userInfo])
 
@@ -52,8 +53,8 @@ export default function FileService() {
     console.log("friend ids", acceptedFriendIds);
     let acceptedFriendInfos = [];
     for (let i = 0; i < acceptedFriendIds.length; i++) {
-       const fullInfo = await getUserInfo(acceptedFriendIds[i].friendId, token);
-       acceptedFriendInfos.push(fullInfo.value);
+      const fullInfo = await getUserInfo(acceptedFriendIds[i].friendId, token);
+      acceptedFriendInfos.push(fullInfo.value);
     }
     console.log("Friend infos", acceptedFriendInfos);
     setAcceptedFriendUserInfo(acceptedFriendInfos);
@@ -87,22 +88,22 @@ export default function FileService() {
 
   async function getUserSharedFiles(userId, token) {
     let userSharedFiles = [];
-    try{
-       userSharedFiles = (await getFilesThatUserShares(userId, token)).value;
+    try {
+      userSharedFiles = (await getFilesThatUserShares(userId, token)).value;
     }
-    catch(err){
+    catch (err) {
       console.log(err);
     }
     let userFullInfo = [];
     let fileFullInfo = [];
-    try{
+    try {
       for (let i = 0; i < userSharedFiles.length; i++) {
         userFullInfo.push((await getUserInfo(userSharedFiles[i].sharedWithUserId, userInfo.access_token)).value);
         fileFullInfo.push((await getFileInfo(userSharedFiles[i].fileId, userInfo.userId, userInfo.access_token)).value);
       }
     }
-    catch(err){
-        console.log(err);
+    catch (err) {
+      console.log(err);
     }
     let userFileInfo = [];
     for (let i = 0; i < userFullInfo.length; i++) {
@@ -111,7 +112,7 @@ export default function FileService() {
         userSharedWithId: userFullInfo[i].id,
         username: userFullInfo[i].username,
         fileName: fileFullInfo[i].fileName
-      });      
+      });
     }
     setFileUserInfo(userFileInfo);
   }
@@ -172,61 +173,147 @@ export default function FileService() {
     }
   }
 
-  async function StopFileSharing(fileId, sharedWithId){
-    try{
+  async function StopFileSharing(fileId, sharedWithId) {
+    try {
       await stopSharingFile(fileId, userInfo.userId, sharedWithId, userInfo.access_token);
       await getUserSharedFiles(userInfo.userId, userInfo.access_token);
     }
-    catch(err) {
+    catch (err) {
       console.log(err);
     }
   }
 
   return (
-    <main className="">
-      <h3>Own Files</h3>
-      <ul>
-        {stateUserOwnFiles.length > 0 && stateUserOwnFiles.map(el => (
-          <li key={el.id}>
-            <p style={{ color: "white" }}>{el.fileName}</p>
-            <button onClick={() => onDownloadFile(el.id, el.fileName)} type="button">downLoad file</button>
-            <button onClick={() => onDeleteFile(el.id)} type="button">delete file</button>
-            <button onClick={() => {
-              setFileId(el.id);
-              setOnShow(true)
-            }} type="button">Share file</button>
-          </li>
-        ))}
-      </ul>
-      <h3>Received Files</h3>
-      <ul>
-        {stateUserReceivedFiles.length > 0 && stateUserReceivedFiles.map(el => (
-          <li key={el.id}>
-            <p style={{ color: "white" }}>{el.fileName}</p>
-            <button onClick={() => onDownloadFile(el.id, el.fileName)} type="button">downLoad file</button>
-          </li>
-        ))}
-      </ul>
-      <form onSubmit={uploadUserFile}>
-        <input
-          style={{ color: "white" }}
-          name="file"
-          type="file"
-          onChange={(event) => console.log(event.target.value)} />
-        <button type="submit">Upload</button>
-      </form>
-      <button onClick={() => {getUserSharedFiles(userInfo.userId, userInfo.access_token)}}>Show files that i am sharing</button>
-      <h3>Received Files</h3>
-      <ul>
-        {statefileUserInfo.length > 0 && statefileUserInfo.map((el, index) => (
-          <li key={index}>
-            <p style={{ color: "white" }}>Shared with {el.username}</p>
-            <p style={{ color: "white" }}> File name {el.fileName}</p>
-            <button onClick={() => StopFileSharing(el.fileId, el.userSharedWithId)} type="button">Stop sharing</button>
-          </li>
-        ))}
-      </ul>
-      {onShow && <Portal onClose={onClose} ><Modal onClose={onClose} ><ShareFile userInfo={userInfo} shareFileId = {stateFileId} onClose={onClose} acceptedFriendsInfo={stateAcceptedFriendsInfo} /> </Modal> </Portal>}
+    <main className="container">
+      <section className={css.section}>
+        <table className={css.table}>
+          <caption>Own Files</caption>
+          <thead>
+            <tr>
+              <th>File Name</th>
+              <th>Action</th>
+              <th>Action</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {stateUserOwnFiles.length > 0 &&
+              stateUserOwnFiles.map((el) => (
+                <tr className={css.row} key={el.id}>
+                  <td className={css.text}>{el.fileName}</td>
+                  <td>
+                    <button className={css.button} onClick={() => onDownloadFile(el.id, el.fileName)} type="button">
+                      Download file
+                    </button>
+                  </td>
+                  <td>
+                    <button className={css.button} onClick={() => onDeleteFile(el.id)} type="button">
+                      Delete file
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className={css.button}
+                      onClick={() => {
+                        setFile(el);
+                        setOnShow(true);
+                      }}
+                      type="button"
+                    >
+                      Share file
+                    </button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </section>
+
+      <section className={css.section}>
+        <table className={css.table}>
+          <caption>Received Files</caption>
+          <thead>
+            <tr>
+              <th>File Name</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {stateUserReceivedFiles.length > 0 &&
+              stateUserReceivedFiles.map((el) => (
+                <tr className={css.row} key={el.id}>
+                  <td className={css.text}>{el.fileName}</td>
+                  <td>
+                    <button className={css.button} onClick={() => onDownloadFile(el.id, el.fileName)} type="button">
+                      Download file
+                    </button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </section>
+      <section className={css.section}>
+        <table className={css.table}>
+          <caption>Upload Files</caption>
+          <tbody>
+            <tr>
+              <td>
+                <h3 className={css.h3}>Choose a file:</h3>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <form className={css.upload_form} onSubmit={uploadUserFile}>
+                  <label htmlFor="file" style={{ color: "white" }}>
+                    Choose a file:
+                  </label>
+                  <input name="file" type="file" id="file" onChange={(event) => console.log(event.target.value)} />
+                  <button className={css.button} type="submit">
+                    Upload
+                  </button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section className={css.section}>
+      <button className={css.button} onClick={() => getUserSharedFiles(userInfo.userId, userInfo.access_token)} type="button">
+          Show files that I am sharing
+        </button>
+        <table className={css.table}>
+          <caption>Shared Files</caption>
+          <thead>
+            <tr>
+              <th>Shared with</th>
+              <th>File name</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {statefileUserInfo.length > 0 &&
+              statefileUserInfo.map((el, index) => (
+                <tr className={css.row} key={index}>
+                  <td className={css.text}>{el.username}</td>
+                  <td className={css.text}>{el.fileName}</td>
+                  <td>
+                    <button className={css.button} onClick={() => StopFileSharing(el.fileId, el.userSharedWithId)} type="button">
+                      Stop sharing
+                    </button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </section>
+      {onShow && (
+        <Portal onClose={onClose}>
+          <Modal onClose={onClose}>
+            <ShareFile userInfo={userInfo} shareFileId={stateFile.id} onClose={onClose} acceptedFriendsInfo={stateAcceptedFriendsInfo} fileName={stateFile.fileName} />
+          </Modal>
+        </Portal>
+      )}
     </main>
   );
 }

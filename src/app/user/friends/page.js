@@ -105,10 +105,10 @@ export default function Friends() {
     async function acceptPendingFriendRequest(senderId, showDeclinedRequests = false) {
         try {
             await acceptFriendRequest(senderId, userInfo.userId, userInfo.access_token);
-            if(showDeclinedRequests){
+            if (showDeclinedRequests) {
                 await showDeclinedFriendRequests();
             }
-            else{
+            else {
                 await showPendingFriendRequests();
             }
             await initializeAcceptedFriendsInfo(userInfo.userId, userInfo.access_token);
@@ -165,23 +165,45 @@ export default function Friends() {
     return (
         <main className="container">
             <div className={s.friends} >
-                <div className={s.first_block}>
-                <h3 className={s.title}>Accepted friends</h3>
-                <ul className={s.list}>
-                    {stateAcceptedFriendsInfo.length > 0 && stateAcceptedFriendsInfo.map(friendInfo => (
-                        <li className={s.item} key={friendInfo.id}>
-                            <p className={s.friend_username}>{friendInfo.username}</p>
-                            <button className={s.button_appearing} type="button" onClick={() => { deleteFriend(friendInfo.id) }}>Delete friend</button>
-                            <button className={s.button_appearing} type="button" onClick={() => {
-                                setFriend(friendInfo);
-                                setOnShow(true)
-                                console.log(friendInfo);
-                            }}>Write message</button>
-                        </li>
-                    ))}
-                </ul>
-                </div>
-                <div className={s.black_form}>
+                <section className={s.first_block}>
+                    <table className={s.table}>
+                        <caption className={s.caption} >Friends</caption>
+                        <thead className={s.thread}>
+                            <tr>
+                                <th>Friend Username</th>
+                                <th>Action</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {stateAcceptedFriendsInfo.length > 0 &&
+                                stateAcceptedFriendsInfo.map((friendInfo) => (
+                                    <tr className={s.row} key={friendInfo.id}>
+                                        <td className={s.friend_username}>{friendInfo.username}</td>
+                                        <td>
+                                            <button className={s.button_appearing} type="button" onClick={() => deleteFriend(friendInfo.id)}>
+                                                Delete friend
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button
+                                                className={s.button_appearing}
+                                                type="button"
+                                                onClick={() => {
+                                                    setFriend(friendInfo);
+                                                    setOnShow(true);
+                                                    console.log(friendInfo);
+                                                }}
+                                            >
+                                                Write message
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </table>
+                </section>
+                <section className={s.black_form}>
                     <h3 className={s.title_form}>Send friend request</h3>
                     <form className={s.form} onSubmit={addFriend}>
                         <input className={s.input} name="username" placeholder="Username" required />
@@ -189,36 +211,75 @@ export default function Friends() {
                             Send  request
                         </button>
                     </form>
-                </div>
-                <div className={s.black_div}>
-                    <h3 className={s.title_form}>Show pending requests</h3>
-                    <button className={s.button} type="button" onClick={showPendingFriendRequests}>Show pending requests</button>
-                    <ul>
-                        {statePendingFriendsInfo.length > 0 && statePendingFriendsInfo.map(friendInfo => (
-                            <li className={s.item} key={friendInfo.id}>
-                                <p className={s.friend_username}>{friendInfo.username}</p>
-                                <button className={s.button_appearing} onClick={() => { acceptPendingFriendRequest(friendInfo.id) }}>Accepted Request</button>
-                                <button className={s.button_appearing} onClick={() => { denyPendingFriendRequest(friendInfo.id) }}>Deny Request</button>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-                <div className={s.black_div}>
-                    <h3 className={s.title_form}>Show declined requests</h3>
+                </section>
+                <section className={s.black_div}>
+                    <button type="button" className={s.button} onClick={showPendingFriendRequests}>Show pending requests</button>
+                    <table className={s.table}>
+                        <caption>Show pending requests</caption>
+                        <thead>
+                            <tr>
+                                <th>Friend Username</th>
+                                <th>Action</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {statePendingFriendsInfo.length > 0 &&
+                                statePendingFriendsInfo.map((friendInfo) => (
+                                    <tr className={s.row} key={friendInfo.id}>
+                                        <td className={s.friend_username}>{friendInfo.username}</td>
+                                        <td>
+                                            <button className={s.button_appearing} onClick={() => acceptPendingFriendRequest(friendInfo.id)} type="button">
+                                                Accept Request
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button className={s.button_appearing} onClick={() => denyPendingFriendRequest(friendInfo.id)} type="button">
+                                                Deny Request
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </table>
+
+                </section>
+                <section className={s.black_div}>
+
                     <button type="button" className={s.button} onClick={showDeclinedFriendRequests}>Show declined requests</button>
-                    <ul>
-                        {stateDeclinedFriendsInfo.length > 0 && stateDeclinedFriendsInfo.map(friendInfo => (
-                            <li className={s.item} key={friendInfo.id}>
-                                <p className={s.friend_username}>{friendInfo.username}</p>
-                                <button className={s.button_appearing} onClick={() => { acceptPendingFriendRequest(friendInfo.id, true) }}>Accepted Request</button>
-                                <button className={s.button_appearing} onClick={() => { deleteFriend(friendInfo.id, true) }}>Delete Request</button>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                    <table className={s.table}>
+                        <caption>Show declined requests</caption>
+                        <thead>
+                            <tr>
+                                <th>Friend Username</th>
+                                <th>Action</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {stateDeclinedFriendsInfo.length > 0 &&
+                                stateDeclinedFriendsInfo.map((friendInfo) => (
+                                    <tr className={s.row} key={friendInfo.id}>
+                                        <td className={s.friend_username}>{friendInfo.username}</td>
+                                        <td>
+                                            <button className={s.button_appearing} onClick={() => acceptPendingFriendRequest(friendInfo.id, true)} type="button">
+                                                Accept Request
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button className={s.button_appearing} onClick={() => deleteFriend(friendInfo.id, true)} type="button">
+                                                Delete Request
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                        </tbody>
+                    </table>
+
+                </section>
             </div>
 
-            {onShow && <Portal onClose={onClose} ><Modal onClose={onClose} ><SendMessage userInfo={userInfo} friend={stateFriend} onClose={onClose}/> </Modal> </Portal>}
+            {onShow && <Portal onClose={onClose} ><Modal onClose={onClose} ><SendMessage userInfo={userInfo} friend={stateFriend} onClose={onClose} /> </Modal> </Portal>}
         </main>
     );
 }
