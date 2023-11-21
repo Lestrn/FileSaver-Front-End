@@ -156,6 +156,11 @@ p {
   padding-top: 5%;
   text-align: center;
 }
+.success-msg{
+  color: rgb(47, 255, 57);
+  padding-top: 5%;
+  text-align: center;
+}
 
 .loading-msg {
   color: white;

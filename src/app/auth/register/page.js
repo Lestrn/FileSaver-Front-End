@@ -12,7 +12,7 @@ export default function Register() {
   
  
    const [retrievedData, setRetrievedData] = useState(null);
-
+   const [stateFailMessage, setFailMessage] = useState("");
    const [isFailed, setFail] = useState(false);
 
    const router = useRouter();
@@ -43,7 +43,7 @@ export default function Register() {
       }
       catch (err) {
          setFail(true);
-         console.log(err.response.data.message);
+         setFailMessage(err.response.data.message);
       }
       finally {
          setLoading(false);
@@ -68,7 +68,7 @@ export default function Register() {
                   <i className='bx bxs-user' ></i>
                </div>
                <button type="submit" className="btn">Register</button>
-               {isFailed && <p className="error-msg">Invalid data input</p>}
+               {isFailed && <p className="error-msg">{stateFailMessage}</p>}
                <div className="login-link">
                   <p>
                      Already have an account? <a href="/auth/login">Login</a>

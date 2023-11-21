@@ -43,6 +43,8 @@ export default function FileService() {
 
 
   async function initializeAcceptedFriendsInfo(userId, token) {
+    const loadingIsAlreadyActive = isLoading;
+    !loadingIsAlreadyActive && setLoading(true);
     let acceptedFriendIds = [];
     try {
       acceptedFriendIds = (await getAcceptedFriendRequests(userId, token)).value;
@@ -58,6 +60,7 @@ export default function FileService() {
     }
     console.log("Friend infos", acceptedFriendInfos);
     setAcceptedFriendUserInfo(acceptedFriendInfos);
+    !loadingIsAlreadyActive && setLoading(false);
   }
 
 
@@ -66,29 +69,41 @@ export default function FileService() {
 
 
   async function getUserOwnFiles(userId, token) {
+    const loadingIsAlreadyActive = isLoading;
     try {
+      !loadingIsAlreadyActive && setLoading(true);
       const files = await getOwnFiles(userId, token);
       setUserOwnFiles(files.value);
     }
     catch (err) {
       console.log(err.message);
     }
+    finally {
+      !loadingIsAlreadyActive && setLoading(false);
+    }
 
   }
 
   async function getUserReceivedFiles(userId, token) {
+    const loadingIsAlreadyActive = isLoading;
     try {
+      !loadingIsAlreadyActive && setLoading(true);
       const files = await getReceivedFiles(userId, token);
       setUserReceivedFiles(files.value);
     }
     catch (err) {
       console.log(err.message);
     }
+    finally{
+      !loadingIsAlreadyActive && setLoading(false);
+    }
   }
 
   async function getUserSharedFiles(userId, token) {
     let userSharedFiles = [];
+    const loadingIsAlreadyActive = isLoading;
     try {
+      !loadingIsAlreadyActive && setLoading(true);
       userSharedFiles = (await getFilesThatUserShares(userId, token)).value;
     }
     catch (err) {
@@ -115,10 +130,13 @@ export default function FileService() {
       });
     }
     setFileUserInfo(userFileInfo);
+    !loadingIsAlreadyActive && setLoading(false);
   }
 
   async function onDownloadFile(fileId, fileName) {
+    const loadingIsAlreadyActive = isLoading;
     try {
+      !loadingIsAlreadyActive && setLoading(true);
       const response = await downloadFile(fileId, userInfo.userId, userInfo.access_token);
 
       if (response.ok) {
@@ -139,9 +157,14 @@ export default function FileService() {
     } catch (error) {
       console.error('Error downloading file:', error);
     }
+    finally{
+      !loadingIsAlreadyActive && setLoading(false);
+    }
   }
 
   async function onDeleteFile(fileId) {
+    const loadingIsAlreadyActive = isLoading;
+    !loadingIsAlreadyActive && setLoading(true);
     try {
       await deleteFileById(fileId, userInfo.userId, userInfo.access_token);
       getUserOwnFiles(userInfo.userId, userInfo.access_token);
@@ -149,11 +172,15 @@ export default function FileService() {
     catch (err) {
       console.log(err)
     }
+    finally{
+      !loadingIsAlreadyActive && setLoading(false);
+    }
   }
 
   async function uploadUserFile(e) {
     e.preventDefault();
-
+    const loadingIsAlreadyActive = isLoading;
+    !loadingIsAlreadyActive && setLoading(true);
     const files = e.target.file.files;
 
     if (files.length === 0) {
@@ -170,6 +197,9 @@ export default function FileService() {
       await getUserOwnFiles(userInfo.userId, userInfo.access_token);
     } catch (err) {
       console.error(err);
+    }
+    finally{
+      !loadingIsAlreadyActive && setLoading(false);
     }
   }
 

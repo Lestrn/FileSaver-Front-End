@@ -2,14 +2,14 @@
 import { useContext, useState } from "react";
 import { login } from "@/services/api";
 import { Context } from "@/app/layout";
-
+import { useRouter } from "next/navigation";
 export default function Login() {
   const [retrievedData, setRetrievedData] = useState(null);
   const {isLoading, setLoading, setAuthorize} = useContext(Context);
   const [isFailed, setFail] = useState(false);
   
   const key = "userInfo"
-
+  const router = useRouter();
   async function onLogin(event) {
     event.preventDefault();
 
@@ -31,6 +31,7 @@ export default function Login() {
       localStorage.setItem(key, JSON.stringify(data));
       // 
       setAuthorize(true);
+      router.push('/user/files');
       setFail(false);
     } catch (err) {
         setFail(true);

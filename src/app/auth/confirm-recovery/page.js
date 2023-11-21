@@ -5,7 +5,7 @@ import { Context } from "@/app/layout";
 import { useRouter } from "next/navigation";
 export default function ConfirmCode() {
 
-  const {userEmail }= useContext(Context); // global state, retrieve data
+  const {userEmail, setAuthorize}= useContext(Context); // global state, retrieve data
 
   const {isLoading, setLoading} = useContext(Context);
   const [isFailed, setFail] = useState(false);
@@ -29,7 +29,9 @@ export default function ConfirmCode() {
     try {
       const data = await confirmRecovery(confirmUser);
       localStorage.setItem(key, JSON.stringify(data));
+      setAuthorize(true);
       setFail(false);
+      router.push("/user/settings");
     } catch (err) {
         setFail(true);
       console.log(err.message);

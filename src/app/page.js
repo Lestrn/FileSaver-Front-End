@@ -29,11 +29,6 @@ export default function Home() {
             The front-end is built using React, offering a dynamic and responsive user interface.
           </p>
         </div>
-
-        <div className={styles.images}>
-          <img src="G:\React Projects\Next\file-saver-front\src\app\Images\fileUploading.jpg" alt="Feature 1" className={styles.featureImage} />
-          <img src="your-image-url-2" alt="Feature 2" className={styles.featureImage} />
-        </div>
       </div>
     </main>
   );

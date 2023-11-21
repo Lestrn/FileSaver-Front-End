@@ -11,6 +11,7 @@ import { Header } from '../components/Header/Header';
 import Sidebar from '@/components/Sidebar/Sidebar';
 import { Loader } from '@/components/Loader';
 import { getOwnFiles } from '@/services/api';
+import { useRouter } from 'next/navigation';
 
 export const Context = createContext(null);
 
@@ -22,30 +23,33 @@ export default function RootLayout({ children }) {
   const [isLoading, setLoading] = useState(false)
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
-
+  const router = useRouter();
 
   const [stateIsAuthorized, setAuthorize] = useState(true);
   const key = "userInfo"
   useEffect(() => {
-
-    console.log("SETLOADING ON TRUE")
-
     const data = JSON.parse(localStorage.getItem(key));
     if (data == null) {
       setAuthorize(false);
     }
     else {
-      try {
-        getOwnFiles(data.userId, data.access_token);
-        setAuthorize(true);
-      }
-      catch (err) {
-        console.log(err)
-        setAuthorize(false);
-      }
+
+      CheckToken(data.userId, data.access_token);
     }
   }, [key]);
 
+
+  async function CheckToken(userId, access_token){
+    try {
+      await getOwnFiles(userId, access_token);
+      setAuthorize(true);
+    }
+    catch (err) {
+      console.log(err)
+      setAuthorize(false);
+      router.push('/');
+    }
+  }
 
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible); // Toggle the sidebar visibility
@@ -59,11 +63,11 @@ export default function RootLayout({ children }) {
 
           <Header />
           <div className='false_header'></div>
-          {stateIsAuthorized &&    <div className="block_button">
+          {stateIsAuthorized && <div className="block_button">
             <button className={`toggle-button ${sidebarVisible ? 'button-open' : ''}`} onClick={toggleSidebar}><i className="gg-sidebar"></i></button> {/* Button to toggle the sidebar */}
-          </div> }
+          </div>}
           <div className=" ">
-      {stateIsAuthorized && <Sidebar />} 
+            {stateIsAuthorized && <Sidebar/>}
             {children}
             {isLoading && <div className="loading-msg"><Loader /></div>}
           </div>

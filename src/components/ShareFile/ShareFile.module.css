@@ -1,47 +1,57 @@
 .list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .item {
-    margin-bottom: 15px;
-  }
-  
-  .friend_username {
-    font-size: 20px;
-    font-family: 'Gambetta', serif;
-    letter-spacing: -3px;
-    transition: 700ms ease;
-    font-variation-settings: "wght" 311;
-    margin-bottom: 0.8rem;
-    color: rgb(232, 206, 255);
-    outline: none;
-    max-width: 40px;
-    margin-right: 50px;
-    letter-spacing: 1px;
-    
-  }
-  .title {
-    font-size: 20px;
-    font-family: 'Gambetta', serif;
-    letter-spacing: -3px;
-    transition: 700ms ease;
-    font-variation-settings: "wght" 311;
-    margin-bottom: 0.8rem;
-    color: rgb(232, 206, 255);
-    outline: none;
-    text-align: center;
-    margin-right: 10px;
-    letter-spacing: 1px;
-    max-width: 300px; /* Set the maximum width for the title */
-    word-wrap: break-word; /* Allow the title to wrap to the next line */
-  }
+  list-style: none;
+  padding: 0;
+}
 
-  .button_appearing {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+.item {
+  margin-bottom: 15px;
+}
+
+.friend_username {
+  font-size: 20px;
+  font-family: 'Gambetta', serif;
+  letter-spacing: -3px;
+  transition: 700ms ease;
+  font-variation-settings: "wght" 311;
+  margin-bottom: 0.8rem;
+  color: rgb(232, 206, 255);
+  outline: none;
+  max-width: 40px;
+  margin-right: 50px;
+  letter-spacing: 1px;
+
+}
+
+.title {
+  font-size: 20px;
+  font-family: 'Gambetta', serif;
+  letter-spacing: -3px;
+  transition: 700ms ease;
+  font-variation-settings: "wght" 311;
+  margin-bottom: 0.8rem;
+  color: rgb(232, 206, 255);
+  outline: none;
+  text-align: center;
+  margin-right: 10px;
+  letter-spacing: 1px;
+  max-width: 300px;
+  /* Set the maximum width for the title */
+  word-wrap: break-word;
+  /* Allow the title to wrap to the next line */
+}
+
+.button_appearing {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* notifications */
+.error_msg {
+  display: inline-block;
+  color: red;
+  padding-left: 10px;
+}

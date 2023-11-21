@@ -15,7 +15,9 @@ export default function Friends() {
     const [stateAcceptedFriendsInfo, setAcceptedFriendUserInfo] = useState([]);
     const [statePendingFriendsInfo, setPendingFriendUserInfo] = useState([]);
     const [stateDeclinedFriendsInfo, setDeclinedFriendUserInfo] = useState([]);
-
+    const [stateFailMessage, setFailMessage] = useState("");
+    const [isFailed, setFail] = useState(false);
+    const [isSuccess, setSuccess] = useState(false);
     const [onShow, setOnShow] = useState(false);
     const [stateFriend, setFriend] = useState(null);
 
@@ -70,10 +72,13 @@ export default function Friends() {
         const username = form.elements.username.value;
         try {
             await sendFriendRequest(userInfo.userId, username, userInfo.access_token);
-            alert("success");
+            setFail(false);
+            setSuccess(true);
         }
         catch (err) {
-            console.log(err);
+            setSuccess(false);
+            setFail(true);
+            setFailMessage(err.response.data);
         }
     }
 
@@ -211,11 +216,13 @@ export default function Friends() {
                             Send  request
                         </button>
                     </form>
+                    {isFailed && <div className={s.error_msg}>{stateFailMessage}</div>}
+                    {isSuccess && <div className={s.success_msg}>friend request has been successfully sent!</div>}
                 </section>
                 <section className={s.black_div}>
                     <button type="button" className={s.button} onClick={showPendingFriendRequests}>Show pending requests</button>
                     <table className={s.table}>
-                        <caption>Show pending requests</caption>
+                        <caption>Pending requests</caption>
                         <thead>
                             <tr>
                                 <th>Friend Username</th>
@@ -248,7 +255,7 @@ export default function Friends() {
 
                     <button type="button" className={s.button} onClick={showDeclinedFriendRequests}>Show declined requests</button>
                     <table className={s.table}>
-                        <caption>Show declined requests</caption>
+                        <caption>Declined requests</caption>
                         <thead>
                             <tr>
                                 <th>Friend Username</th>
