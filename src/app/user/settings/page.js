@@ -50,8 +50,8 @@ export default function Settings() {
             <section className={css.formSection}>
                 <h1 className={css.caption}>Change password</h1>
                 <form className={css.form} onSubmit={onPasswordChange}>
-                    <input className={css.input} name="password" placeholder="New Password" />
-                    <input className={css.input} name="passwordConfirm" placeholder="New Password Confirm" />
+                    <input className={css.input} name="password" placeholder="New Password" required />
+                    <input className={css.input} name="passwordConfirm" placeholder="New Password Confirm" required />
                     <button className={css.button} type="submit">Save password</button>
                     {isFailed && <div className={css.error_msg}>{stateFailMessage}</div>}
                     {isSuccess && <div className={css.success_msg}>{stateSuccessMessage}</div>}
