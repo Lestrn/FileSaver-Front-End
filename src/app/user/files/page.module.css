@@ -114,3 +114,10 @@
 .row {
     border-bottom: 1px solid #ddd;
   }
+
+  .error_msg {
+    display: inline;
+    color: red;
+    padding-top: 5px;
+    padding-left: 10px;
+}

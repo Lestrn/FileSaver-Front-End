@@ -30,7 +30,6 @@ export default function ConfirmCode() {
       router.push('/auth/login')
     } catch (err) {
         setFail(true);
-      console.log(err.message);
     } finally {
       setLoading(false);
     }

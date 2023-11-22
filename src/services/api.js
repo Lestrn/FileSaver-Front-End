@@ -46,6 +46,17 @@ export async function downloadFile(fileId,  ownerId, token) {
   return response;
 }
 
+export async function getAvatarImage(userId, token) {
+  
+  const  response  = await fetch(`${baseURL}${ruoteUser}GetAvatarImage?userId=${userId}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}` 
+    }
+  });
+  return response;
+}
+
 export async function getAllUsers(token) {
   const { data } = await axios.get(`${ruoteUser}GetAllUsers`, {
     headers: {

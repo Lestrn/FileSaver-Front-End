@@ -35,7 +35,6 @@ export default function Login() {
       setFail(false);
     } catch (err) {
         setFail(true);
-      console.log(err.message);
     } finally {
       setLoading(false);
     }

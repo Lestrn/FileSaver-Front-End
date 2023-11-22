@@ -183,9 +183,9 @@ p {
 /*side bar */
 .toggle-button {
  
-  position: absolute;
+  position: fixed;
   top: 30px;
-  left: 50px;
+  left: 40px;
   background: transparent;
   backdrop-filter: blur(20px);
   box-shadow: 0 0 10px gray;

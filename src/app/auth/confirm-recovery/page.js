@@ -34,7 +34,6 @@ export default function ConfirmCode() {
       router.push("/user/settings");
     } catch (err) {
         setFail(true);
-      console.log(err.message);
     } finally {
       setLoading(false);
     }

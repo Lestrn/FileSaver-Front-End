@@ -12,6 +12,7 @@ export default function FileService() {
   const key = "userInfo"
   const { isLoading, setLoading } = useContext(Context);
   const [isFailed, setFail] = useState(false);
+  const [stateFailMessage, setFailMessage] = useState("");
   const [stateUserOwnFiles, setUserOwnFiles] = useState([]);
   const [stateUserReceivedFiles, setUserReceivedFiles] = useState([]);
   const [stateUserSharedFiles, setUserSharedFiles] = useState([]);
@@ -107,7 +108,6 @@ export default function FileService() {
       userSharedFiles = (await getFilesThatUserShares(userId, token)).value;
     }
     catch (err) {
-      console.log(err);
     }
     let userFullInfo = [];
     let fileFullInfo = [];
@@ -118,7 +118,6 @@ export default function FileService() {
       }
     }
     catch (err) {
-      console.log(err);
     }
     let userFileInfo = [];
     for (let i = 0; i < userFullInfo.length; i++) {
@@ -170,7 +169,6 @@ export default function FileService() {
       getUserOwnFiles(userInfo.userId, userInfo.access_token);
     }
     catch (err) {
-      console.log(err)
     }
     finally{
       !loadingIsAlreadyActive && setLoading(false);
@@ -184,7 +182,9 @@ export default function FileService() {
     const files = e.target.file.files;
 
     if (files.length === 0) {
-      console.log("No files selected");
+      setFailMessage("No files selected");
+      setFail(true);
+      !loadingIsAlreadyActive && setLoading(false);
       return;
     }
 
@@ -195,6 +195,7 @@ export default function FileService() {
     try {
       await uploadFile(userInfo.userId, body, userInfo.access_token);
       await getUserOwnFiles(userInfo.userId, userInfo.access_token);
+      setFail(false);
     } catch (err) {
       console.error(err);
     }
@@ -302,6 +303,7 @@ export default function FileService() {
                   <button className={css.button} type="submit">
                     Upload
                   </button>
+                  {isFailed && <div className={css.error_msg}>{stateFailMessage}</div>}
                 </form>
               </td>
             </tr>

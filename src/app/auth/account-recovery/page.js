@@ -30,7 +30,6 @@ export default function RecoverAccount() {
       router.push('/auth/confirm-recovery')
     } catch (err) {
       setFail(true);
-      console.log(err.message);
     } finally {
       setLoading(false);
     }
